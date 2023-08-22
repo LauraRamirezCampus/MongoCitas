@@ -1,0 +1,344 @@
+/**
+ * *tipo_documento SCHEMA
+ */
+use("db_campus_citas");
+db.createCollection("tipo_documentos", {
+    capped: true,
+    size: 5000,
+    max: 15,
+    validator: {
+        $jsonSchema: {
+            bsonType: 'object',
+            additionalProperties: false,
+            required: ['tipdoc_id', 'numero', 'tipdoc_nombre', 'tipdoc_abreviatura'],
+            properties: {
+                _id: {
+                    bsonType: 'objectId'
+                },
+                tipdoc_id: {
+                    bsonType: "int",
+                    description: 'La id es obligatoria y debe ser numérica'
+                },
+                numero: {
+                    bsonType: 'int',
+                    description: 'El numero es obligatorio y debe ser numerico',
+                },
+                tipdoc_nombre: {
+                    bsonType: 'string',
+                    description: 'El nombre es obligatorio y deben ser caracteres',
+                },
+                tipdoc_abreviatura: {
+                    bsonType: 'string',
+                    description: 'El dato abreviatura es obligatorio'
+                }
+            }
+        }
+    }
+});
+/** 
+ * * data insertada
+ * 
+ * 
+ * */
+
+use("db_campus_citas");
+db.tipo_documentos.insertMany([
+    {
+        tipdoc_id: 1,
+        numero: 123456789,
+        tipdoc_nombre: "cedula",
+        tipdoc_abreviatura: "cc"
+    }
+]);
+
+/**
+ * *genero SCHEMA
+ */
+use("db_campus_citas");
+db.createCollection("genero", {
+    capped: true,
+    size: 5000,
+    max: 15,
+    validator: {
+        $jsonSchema: {
+            bsonType: 'object',
+            additionalProperties: false,
+            required: ['gen_id', 'gen_nombre', 'gen_abreviatura'],
+            properties: {
+                _id: {
+                    bsonType: 'objectId'
+                },
+                gen_id: {
+                    bsonType: "int",
+                    description: 'La id es obligatoria y debe ser numérica'
+                },
+                gen_nombre: {
+                    enum: ['femenino', 'masculino']
+                },
+
+                gen_abreviatura: {
+                    bsonType: 'string',
+                    description: 'El dato abreviatura es obligatorio'
+                }
+            }
+        }
+    }
+});
+
+/**
+ * *inserta data
+ */
+
+use("db_campus_citas");
+db.genero.insertOne(
+    {
+        gen_id: 1,
+        gen_nombre: "femenino",
+        gen_abreviatura: "F"
+    }
+);
+
+/**
+ * *usuario SCHEMA
+ */
+use("db_campus_citas");
+db.createCollection("usuario", {
+    capped: true,
+    size: 5000,
+    max: 15,
+    validator: {
+        $jsonSchema: {
+            bsonType: 'object',
+            additionalProperties: false,
+            required: ['usu_id', 'usu_nombre', 'usu_primer_apellido', 'usu_telefono', 'usu_direccion', 'usu_tipoDoc', 'usu_numeroDoc', 'usu_genero'], properties: {
+                _id: {
+                    bsonType: 'objectId'
+                },
+                usu_id: {
+                    bsonType: "int",
+                    description: 'La id es obligatoria y debe ser numérica'
+                },
+                usu_nombre: {
+                    bsonType: 'string',
+                    description: 'El nombre es obligatorio y debe ser caracteres',
+                },
+                usu_segdo_nombre: {
+                    bsonType: 'string',
+                    description: 'El nombre deben ser caracteres',
+                },
+                usu_primer_apellido: {
+                    bsonType: 'string',
+                    description: 'El primer apellido es obligatorio y deben ser caracteres'
+                },
+                usu_segdo_apellido: {
+                    bsonType: 'string',
+                    description: 'El  apellido deben ser caracteres'
+                },
+                usu_telefono: {
+                    bsonType: 'int',
+                    description: 'El telefono es obligatorio y debe ser solo numerico'
+                },
+                usu_direccion: {
+                    bsonType: 'string',
+                    description: 'la direccion es obligatorio y deben ser caracteres'
+                },
+                usu_email: {
+                    bsonType: 'string',
+                    description: 'el email es obligatorio y deben ser caracteres'
+                },
+                usu_tipoDoc: {
+                    bsonType: 'string',
+                    description: 'el tipo de direccion es obligatorio y deben ser caracteres'
+                },
+                usu_numeroDoc: {
+                    bsonType: 'int',
+                    description: 'el numero de documento es obligatorio y deben ser solo numerico'
+                },
+                usu_genero: {
+                    enum: ['femenino', 'masculino']
+                },
+                usu_idacudiente: {
+                    bsonType: 'int',
+                    description: 'el id de acudiente es obligatorio y deben ser solo numerico'
+                }
+            }
+        }
+    }
+});
+use("db_campus_citas");
+
+db.usuario.insertOne(
+    {
+        usu_id: 1,
+        usu_nombre: "Juan",
+        usu_segdo_nombre: "David",
+        usu_primer_apellido: "Perez",
+        usu_segdo_apellido: "Martinez",
+        usu_telefono: 31119273,
+        usu_direccion: "avenida 15",
+        usu_email: "juan@gmail.com",
+        usu_tipoDoc: "cedula",
+        usu_numeroDoc: 123445,
+        usu_genero: "masculino",
+        usu_idacudiente: 1
+
+    }
+)
+
+/**
+ * *acudiente SCHEMA
+ */
+use("db_campus_citas");
+db.createCollection("acudiente", {
+    capped: true,
+    size: 5000,
+    max: 15,
+    validator: {
+        $jsonSchema: {
+            bsonType: 'object',
+            additionalProperties: false,
+            required: ['acu_id', 'acu_nombre', 'acu_telefono', 'acu_direccion'],
+            properties: {
+                _id: {
+                    bsonType: 'objectId'
+                },
+                acu_id: {
+                    bsonType: 'int',
+                    description: 'La id es obligatoria y debe ser numérica'
+                },
+                acu_nombre: {
+                    bsonType: 'string',
+                    description: 'el nombre es obligatorio y debe ser caracteres'
+                },
+
+                acu_telefono: {
+                    bsonType: 'int',
+                    description: 'El dato abreviatura es obligatorio'
+                },
+                acu_direccion: {
+                    bsonType: 'string',
+                    description: 'El direccion es obligatorio'
+                }
+            }
+        }
+    }
+});
+/**
+ * *Inserta data
+ */
+use("db_campus_citas");
+db.acudiente.insertOne({
+    acu_id: 1,
+    acu_nombre: "Martin",
+    acu_telefono: 32098715,
+    acu_direccion: "avenida 15"
+
+})
+
+/**
+ * *cita SCHEMA
+ */
+
+use("db_campus_citas");
+db.createCollection("cita", {
+    capped: true,
+    size: 5000,
+    max: 15,
+    validator: {
+        $jsonSchema: {
+            bsonType: 'object',
+            additionalProperties: false,
+            required: ['cit_id', 'cit_fecha', 'cit_estado', 'cit_medico', 'cit_usu'],
+            properties: {
+                _id: {
+                    bsonType: 'objectId'
+                },
+                cit_id: {
+                    bsonType: 'int',
+                    description: 'La id es obligatoria y debe ser numérica'
+                },
+                cit_fecha: {
+                    bsonType: 'string',
+                    description: 'el fecha es obligatorio '
+                },
+
+                cit_estado: {
+                    bsonType: 'string',
+                    description: 'El estado es obligatorio y deben ser caracteres'
+                },
+                cit_medico: {
+                    bsonType: 'int',
+                    description: 'El medico es obligatorio'
+                },
+                cit_usu: {
+                    bsonType: 'int',
+                    description: 'El id de usuario es obligatorio y debe ser numerico'
+                }
+            }
+        }
+    }
+});
+
+/**
+ * *inserta data
+ */
+
+use("db_campus_citas");
+db.cita.insertOne({
+    cit_id: 1,
+    cit_fecha: "2023-09-01",
+    cit_estado: "pendiente",
+    cit_medico: 1,
+    cit_usu: 1
+
+})
+
+/**
+ * *medico SCHEMA
+ */
+
+use("db_campus_citas");
+db.createCollection("medico", {
+    capped: true,
+    size: 5000,
+    max: 15,
+    validator: {
+        $jsonSchema: {
+            bsonType: 'object',
+            additionalProperties: false,
+            required: ['med_id', 'med_nombre', 'med_consultorio', 'med_especialidad'],
+            properties: {
+                _id: {
+                    bsonType: 'objectId'
+                },
+                med_id: {
+                    bsonType: 'int',
+                    description: 'La id es obligatoria y debe ser numérica'
+                },
+                med_nombre: {
+                    bsonType: 'string',
+                    description: 'el nombre es obligatorio y deben ser caracteres '
+                },
+
+                med_consultorio: {
+                    bsonType: 'string',
+                    description: 'El consultorio es obligatorio y deben ser caracteres'
+                },
+                med_especialidad: {
+                    bsonType: 'string',
+                    description: 'la especialidad es obligatoria y deben ser caracteres'
+                }
+            }
+        }
+    }
+});
+
+use("db_campus_citas");
+db.medico.insertOne({
+    med_id: 1,
+    med_nombre: "Maria",
+    med_consultorio: "506B",
+    med_especialidad:"psicologia"
+
+
+})
